@@ -7,21 +7,25 @@ import UserCreateStepThree from './Components/UserCreateStepThree'
 import { Stepper, StepLabel, Step } from '@material-ui/core';
 import { multiStepContext } from './StepContext';
 import  DisplayData  from './Components/DisplayData';
+import { Button, TextField } from '@material-ui/core';
 
 
 
 function App() {
 
   const { currentStep, finalData } = useContext(multiStepContext);
+  const { setStep, userData, setUserData } = useContext(multiStepContext);  
 
   function showStep(step) {
     switch(step){
-       case 1:
+      case 1:
       return <UserCreateStepOne />
       case 2:
       return <UserCreateStepTwo />
       case 3:
       return <UserCreateStepThree />
+      case 4:
+      return  <DisplayData /> 
     }
      
 
@@ -48,8 +52,6 @@ function App() {
         </div>
 
         { showStep(currentStep)}
-        <br />
-        {finalData.length > 0 ? <DisplayData /> : '' }
         
       </header>
     </div>

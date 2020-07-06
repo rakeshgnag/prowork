@@ -1,15 +1,23 @@
 import React, { useContext } from 'react'
 import { TableContainer, TableHead, TableBody, TableCell, TableRow, Table } from '@material-ui/core';
 import { multiStepContext } from '../StepContext';
+import { Button, TextField } from '@material-ui/core';
 
 export default function DisplayData() {
 
 	const { finalData } = useContext(multiStepContext);
+	const { setStep, userData, setUserData } = useContext(multiStepContext);
 
 	return (
 
 			<div>
+			
+			<Button variant="contained" onClick={() => setStep(1)} color="primary">Add More Users</Button>
+			<br />
+
 			<TableContainer style={{display:'flex', justifyContent: 'center'}}>
+
+
 			<Table border="1" style={{width:'70%', justifyContent:'center'}} size="small" aria-label="caption table">
 				<TableHead>
 					<TableRow style={{backgroundColor:'#16a085', color: 'aliceblue'}}>

@@ -12,7 +12,7 @@ export const multiStepContext = React.createContext();
  	function submitData() {
  		setFinalData(finalData => [...finalData, userData ]);
  		setUserData('');
- 		setStep(1);
+ 		setStep(4);
  	}
 	return(
 		<div>

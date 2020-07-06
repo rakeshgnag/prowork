@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 export default function UserCreateStepTwo() {
 
-	const { setStep, userData, setUserData } = useContext(multiStepContext);
+	const { setStep, userData, setUserData, finalData } = useContext(multiStepContext);
 	const classes = useStyles();
 
 	return(
@@ -54,6 +54,9 @@ export default function UserCreateStepTwo() {
 			</CardContent>
 			</Card>
 
+			<br />
+			<br />
+	        {finalData.length > 0 ? <Button variant="contained" onClick={() => setStep(4)} color="primary">Show Users</Button> : '' }
 		</div>
 		)
 }
