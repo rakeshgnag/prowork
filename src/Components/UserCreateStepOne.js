@@ -2,13 +2,15 @@ import React, {useContext} from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { multiStepContext } from '../StepContext';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 	
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 		  root: {
 		    minWidth: 275,
 		  },
@@ -23,33 +25,61 @@ const useStyles = makeStyles({
 		  pos: {
 		    marginBottom: 12,
 		  },
-});
+		  formControl: {
+		    margin: theme.spacing(1),
+		    minWidth: 220,
+		  },
+		  selectEmpty: {
+		    marginTop: theme.spacing(2),
+		  },
+}));
 
 export default function UserCreateStepOne() {
-	const { setStep, userData, setUserData, finalData } = useContext(multiStepContext);	
+	const { setStep, updateUserForm, userForm, handleInputChange } = useContext(multiStepContext);	
 	const classes = useStyles();
-
+	
 	return(
 		<div>
 			<Card className={classes.root}>
 			<CardContent>
 			<div>
-				<TextField label="First Name" value={userData['firstName']} onChange={(e) => setUserData({...userData, "firstName": e.target.value })} margin="normal" variant="outlined" color="secondary" />
+				<TextField label="First Name" value={userForm.firstName} 
+				onChange={handleInputChange} margin="normal" name="firstName" variant="outlined" color="secondary" />
 			</div>
+
 			<div>
-				<TextField label="Last Name" value={userData['lastName']} onChange={(e) => setUserData({...userData, "lastName": e.target.value })} margin="normal" variant="outlined" color="secondary" />
+				<TextField label="Last Name" value={userForm.lastName} 
+				onChange={handleInputChange} margin="normal" name="lastName" variant="outlined" color="secondary" />
 			</div>
+
 			<div>
-				<TextField label="Contact Number" value={userData['contactNumber']} onChange={(e) => setUserData({...userData, "contactNumber": e.target.value })} margin="normal" variant="outlined" color="secondary" />
+				<TextField label="Contact Number" name="contactNumber" value={userForm.contactNumber}  onChange={handleInputChange} margin="normal" variant="outlined" color="secondary" />
+			</div>
+
+			<div>
+				<TextField label="Email" name="email" value={userForm.email} onChange={handleInputChange} margin="normal" variant="outlined" color="secondary" />
+			</div>
+
+			<div>
+			<FormControl className={classes.formControl}>
+		        <InputLabel id="demo-simple-select-label">User Type</InputLabel>
+		        	<Select
+			          labelId="demo-simple-select-label"
+			          id="demo-simple-select"
+			          name="userType"
+			          value={(userForm.userType) ? (userForm.userType) : ''}
+			          onChange={(e) => updateUserForm({ ...userForm, userType: e.target.value }) }
+			        >
+				          <MenuItem value='admin'>Admin</MenuItem>
+				          <MenuItem value='manager'>Manager</MenuItem>
+				          <MenuItem value='staff'>Staff</MenuItem>
+		        	</Select>
+		    </FormControl>
 			</div>
 
 			<Button variant="contained" onClick={() => setStep(2)} color="primary">Next</Button>
 			</CardContent>
 			</Card>
-			
-			<br />
-			<br />
-	        {finalData.length > 0 ? <Button variant="contained" onClick={() => setStep(4)} color="primary">Show Users</Button> : '' }
 
 		</div>
 		)

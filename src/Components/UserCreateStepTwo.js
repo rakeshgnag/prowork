@@ -3,11 +3,14 @@ import { Button, TextField } from '@material-ui/core';
 import { multiStepContext } from '../StepContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+const useStyles = makeStyles((theme) => ({
 		  root: {
 		    minWidth: 275,
 		  },
@@ -22,12 +25,19 @@ const useStyles = makeStyles({
 		  pos: {
 		    marginBottom: 12,
 		  },
-});
+		  formControl: {
+		    margin: theme.spacing(1),
+		    minWidth: 220,
+		  },
+		  selectEmpty: {
+		    marginTop: theme.spacing(2),
+		  },
+}));
 
 
 export default function UserCreateStepTwo() {
 
-	const { setStep, userData, setUserData, finalData } = useContext(multiStepContext);
+	const { setStep,updateUserForm, userForm, handleInputChange } = useContext(multiStepContext);
 	const classes = useStyles();
 
 	return(
@@ -37,13 +47,29 @@ export default function UserCreateStepTwo() {
 			<CardContent>
 
 			<div>
-				<TextField label="Email" value={userData['email']} onChange={(e) => setUserData({...userData, "email": e.target.value })} margin="normal" variant="outlined" color="secondary" />
+			<FormControl className={classes.formControl}>
+		        <InputLabel id="demo-simple-select-label">Department</InputLabel>
+		        	<Select
+			          labelId="demo-simple-select-label"
+			          id="demo-simple-select"
+			          name="department"
+			          value={(userForm.department) ? (userForm.department) : 'roads' }
+			          onChange={(e) => updateUserForm({ ...userForm, department: e.target.value }) }
+			        >
+				          <MenuItem value='housing'>Housing</MenuItem>
+				          <MenuItem value='roads'>Roads</MenuItem>
+				          <MenuItem value='water-board'>Water Board</MenuItem>
+		        	</Select>
+		    </FormControl>
 			</div>
+
 			<div>
-				<TextField label="Country" value={userData['country']} onChange={(e) => setUserData({...userData, "country": e.target.value })} margin="normal" variant="outlined" color="secondary" />
+				<TextField label="City" value={userForm.city} name="city" onChange={handleInputChange} margin="normal" variant="outlined" color="secondary" />
 			</div>
+
+			
 			<div>
-				<TextField label="District" value={userData['district']} onChange={(e) => setUserData({...userData, "district": e.target.value })} margin="normal" variant="outlined" color="secondary" />
+				<TextField label="District" value={userForm.district} name="district" onChange={handleInputChange} margin="normal" variant="outlined" color="secondary" />
 			</div>
 
 			<div>
@@ -53,10 +79,6 @@ export default function UserCreateStepTwo() {
 
 			</CardContent>
 			</Card>
-
-			<br />
-			<br />
-	        {finalData.length > 0 ? <Button variant="contained" onClick={() => setStep(4)} color="primary">Show Users</Button> : '' }
 		</div>
 		)
 }
